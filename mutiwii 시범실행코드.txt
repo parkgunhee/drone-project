@@ -1,0 +1,38 @@
+#include "Wire.h"
+
+void setup() {
+    // join I2C bus (I2Cdev library doesn't do this automatically)
+    Wire.begin();
+    Serial.begin(9600);
+
+    Wire.beginTransmission(0x68);
+    Wire.write(0x6B);
+    Wire.write(0x0);
+    Wire.endTransmission();
+}
+
+void loop() {
+    Wire.beginTransmission(0x68);
+    Wire.write(0x3B);
+    Wire.endTransmission();
+
+    int ax, ay, az, temp, gx, gy, gz;
+
+    Wire.requestFrom(0x68, 14);
+
+    ax = Wire.read();
+    ay = Wire.read();
+    az = Wire.read();
+    temp = Wire.read();
+    gx = Wire.read();
+    gy = Wire.read();
+    gz = Wire.read();
+    Serial.print("a/g:\t");
+    Serial.print(ax); Serial.print("\t"); //fhgj
+    Serial.print(ay); Serial.print("\t");
+    Serial.print(az); Serial.print("\t"); //cgh
+    Serial.print(gx); Serial.print("\t"); //fgchv
+    Serial.print(gy); Serial.print("\t"); 
+    Serial.println(gz);
+    delay(200);
+}
